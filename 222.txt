@@ -1,0 +1,639 @@
+#1. ising IRIS datastets perform uni,biv,multi analyse & find covarience and correlation
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+df=pd.read_csv("C:/Users/admin/Downloads/archive (6)/Iris.csv")
+df
+
+df.describe()
+
+df.isnull().sum()
+
+del df ['Id']
+df
+
+df.shape
+
+df_setosa=df.loc[df['Species']=='Iris-setosa']
+df_virginica=df.loc[df['Species']=='Iris-virginica']
+df_versicolor=df.loc[df['Species']=='Iris-versicolor']
+
+plt.plot(df_setosa['SepalLengthCm'],np.zeros_like(df_setosa['SepalLengthCm']),'o')
+plt.plot(df_virginica['SepalLengthCm'],np.zeros_like(df_virginica['SepalLengthCm']),'o')
+plt.plot(df_versicolor['SepalLengthCm'],np.zeros_like(df_versicolor['SepalLengthCm']),'o')
+
+sns.FacetGrid(df,hue='Species', size=5).map(plt.scatter,"PetalLengthCm","SepalLengthCm").add_legend();
+
+sns.pairplot(df,hue='Species', height=3)
+
+df['SepalLengthCm'].cov(df['PetalLengthCm'])
+
+df['SepalLengthCm'].corr(df['PetalLengthCm'])
+
+df.cov()
+
+df.corr()
+
+#2. split trainig and testing dataset in python using t_t_s of sciki learn explore the options of tts
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt 
+from sklearn.datasets import load_boston
+from sklearn.model_selection import train_test_split
+
+
+boston=load_boston()
+boston
+
+x=boston.data
+y=boston.target
+
+x_train,x_test,y_train,y_test=train_test_split(x,y, test_size=0.2, random_state=42)
+
+x_train
+
+y_train
+
+x_test.shape[0]
+
+y_test
+
+#3. create a model to analyse the relaton b/w crop-yeild and rain fall rate using LR
+
+import pandas as pd
+import numpy as np
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+
+df=pd.read_csv("C:/Users/admin/Downloads/archive (29)/yield_df.csv")
+df
+
+x=df[['hg/ha_yield']]
+y=df['average_rain_fall_mm_per_year']
+
+x_train,x_test,y_train,y_test=train_test_split(x,y, test_size=0.2, random_state=42)
+
+from sklearn.linear_model import LinearRegression
+model=LinearRegression()
+model.fit(x_train,y_train)
+
+pred_y=model.predict(x_test)
+pred_y
+
+print("coefficients:", model.coef_)
+print("Intercept:", model.intercept_)
+
+accuracy=model.score(x_test,pred_y)
+print("Accuracy:", accuracy)
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+sns.heatmap(df.corr(),annot=True)
+
+
+#4. create a model for boston from sl datastes using LR
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt 
+from sklearn.datasets import load_boston
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_absolute_error
+
+boston=load_boston()
+boston
+
+x=boston.data
+y=boston.target
+
+x_train,x_test,y_train,y_test=train_test_split(x,y, test_size=0.2, random_state=42)
+
+from sklearn.linear_model import LinearRegression
+model=LinearRegression()
+model.fit(x_train,y_train)
+
+                     
+
+pred_y=model.predict(x)
+pred_y
+
+mae=mean_absolute_error(y,pred_y)
+print("mean_absolute_error:", mae)
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+sns.heatmap(df.corr(),annot=True)
+
+
+# 5. create a model for analyse cricket match result past data using svm
+
+import pandas as pd
+import numpy as np
+from sklearn.svm import SVC
+from sklearn.model_selection import train_test_split
+#from sklearn.metrics import mean_absolute_error
+
+df=pd.read_csv("C:/Users/admin/Downloads/archive (26)/ODI data.csv")
+df
+
+x=df[['Mat']]
+y=df['Runs']
+
+x_train,x_test,y_train,y_test=train_test_split(x,y, test_size=0.2, random_state=42)
+
+svm=SVC()
+svm.fit(x_train,y_train)
+
+pred_y=svm.predict(x_test)
+pred_y
+
+from sklearn.metrics import mean_squared_error
+mse=mean_squared_error(x_test,pred_y)
+print("mean_squared_error:", mse)
+
+accuracy=svm.score(x_test,pred_y)
+print("Accuracy:", accuracy)
+
+#6. cricket a model for performance of a cp past data usnig LR
+
+import pandas as pd
+import numpy as np
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+
+df=pd.read_csv("C:/Users/admin/Downloads/archive (26)/ODI data.csv")
+df
+
+x=df[['Mat']]
+y=df['Runs']
+
+x_train,x_test,y_train,y_test=train_test_split(x,y, test_size=0.2, random_state=42)
+
+from sklearn.svm import SVC
+svm=SVC()
+svm.fit(x_train,y_train)
+
+pred_y=svm.predict(x_test)
+pred_y
+
+from sklearn.metrics import mean_squared_error
+mse=mean_squared_error(x_test,pred_y)
+print("mean_squared_error:", mse)
+
+accuracy=svm.score(x_test,pred_y)
+print("Accuracy:", accuracy)
+
+#7. create a model for iris dataset from sl perfrom data exploration , preprocessing and splitting using DTC
+
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.datasets import load_iris
+from sklearn.tree import DecisionTreeClassifier
+
+iris=load_iris()
+x=iris.data
+y=iris.target
+
+
+print(iris.DESCR)
+
+x_train,x_test,y_train,y_test=train_test_split(x,y, test_size=0.2, random_state=42)
+
+clsf=DecisionTreeClassifier()
+clsf.fit(x_train,y_train)
+
+pred_y=clsf.predict(x_test)
+pred_y
+
+from sklearn.metrics import mean_squared_error
+mse=mean_squared_error(y_test,pred_y)
+print("mean_squared_error:", mse)
+
+accuracy=clsf.score(x_test,y_test)
+print("Accuracy:", accuracy)
+
+# 8. model for breast cancer prediction using BC LR
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+from sklearn.datasets import load_breast_cancer
+
+cancer=load_breast_cancer()
+cancer
+
+x=cancer.data
+y=cancer.target
+
+df=pd.DataFrame(cancer.data, columns=cancer.feature_names)
+df
+
+df.describe()
+
+import seaborn as sns
+sns.boxplot(df['mean area'])
+
+q1=df['mean area'].quantile(0.25)
+q3=df['mean area'].quantile(0.75)
+iqr=q1-q3
+print(iqr)
+lowerlimit=q1-(1.5*iqr)
+upparlimit=q3+(1.5*iqr)
+
+for i in df['mean area']:
+    if i>upparlimit or i<lowerlimit :
+        #df['mean area']=df['mean area'].replace(i, np.median(df['mean area']))
+        df['mean area']=df['mean area'].replace(i,0)
+sns.boxplot(df['mean area'])
+
+df.isnull().sum()
+
+df['label']=cancer.target
+df
+
+df.info()
+
+df.shape
+
+plt.figure(figsize=(20,17))
+sns.heatmap(df.corr(),annot=True)
+
+df.groupby('label').mean()
+df
+
+m=df[df.label==0]
+b=df[df.label==1]
+
+plt.figure(figsize=(10,7))
+sns.scatterplot(m['mean area'],m['mean texture'],color='red',label='malignant',alpha=0.7)
+sns.scatterplot(b['mean area'],b['mean texture'],color='blue',label='bengin',alpha=0.3)
+
+x=df.drop(columns='label',axis=1)
+y=df['label']
+
+x_train,x_test,y_train,y_test=train_test_split(x,y, test_size=0.2, random_state=42)
+
+model=LinearRegression()
+model.fit(x_train,y_train)
+
+pred_y=model.predict(x)
+pred_y
+
+accuracy=model.score(x_test,y_test)
+print("Accuracy:", accuracy)
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_absolute_error
+
+data=pd.read_csv("C:/Users/admin/Downloads/archive (27)/score.csv")
+data.head(10)
+
+data.isnull().sum()
+
+sns.set_style('darkgrid')
+sns.scatterplot(x=data['Hours'],y=data['Scores'])
+plt.title("marks vs Hours", size=20)
+plt.xlabel("hours study", size=12)
+plt.ylabel(" marks percentage", size=12)
+plt.show()
+
+sns.regplot(x=data['Hours'],y=data['Scores'])
+plt.title("marks vs Hours", size=20)
+plt.xlabel("hours study", size=12)
+plt.ylabel(" marks percentage", size=12)
+plt.show()
+print(data.corr())
+
+x=data.iloc[:,:-1].values
+y=data.iloc[:,1].values
+x_train,x_test,y_train,y_test=train_test_split(x,y, random_state=42)
+
+model=LinearRegression()
+model.fit(x_train,y_train)
+print("-----model trained-------")
+
+pred_y=model.predict(x_test)
+prediction=pd.DataFrame({'Hours':[i[0] for i in x_test],'Predicted Marks': [k for k in pred_y]})
+prediction
+
+compare_scores=pd.DataFrame({'Actual Marks': y_test, 'Predicted Marks': pred_y})
+compare_scores
+
+plt.scatter(x=x_test,y=y_test, color='blue')
+plt.plot(x_test,pred_y, color='red')
+plt.title("act vs predMarks", size=20)
+plt.xlabel("hours study", size=12)
+plt.ylabel(" marks percentage", size=12)
+plt.show()
+
+from sklearn.metrics import mean_squared_error
+mse=mean_squared_error(y_test,pred_y)
+print("mean_squared_error:", mse)
+
+from sklearn.metrics import mean_absolute_error
+mse=mean_absolute_error(y_test,pred_y)
+print("mean_absolute_error:", mse)
+
+hours = [9.25]
+answer = model.predict([hours])
+print("Score = {}".format(round(answer[0],3)))
+
+# 10.create a model for fish dataset using logreg
+
+import pandas as pd
+import numpy as np
+fish=pd.read_csv("C:/Users/admin/Downloads/archive (21)/Fish.csv")
+fish.head()
+
+fish['Species'].unique()
+
+fish.isnull().sum()
+
+x=fish.iloc[:,1]
+y=fish.loc[:,'Species']
+
+x
+
+y
+
+from sklearn.preprocessing import MinMaxScaler
+scaler=MinMaxScaler()
+scaler.fit(x)
+x_sclaed=scaler.transform(x)
+
+from sklearn.preprocessing import LabelEncoder
+label_encoder=LabelEncoder()
+y=label_encoder.fit_transform(y)
+y
+
+x_train,x_test,y_train,y_test=train_test_split(x,y, random_state=42)
+
+from sklearn.linear_model import LogisticRegression
+logReg=LogisticRegression() 
+logReg.fit(x_train,y_train)
+
+pred_y=logReg.predict(y_test)
+
+from sklearn.metrics import accuracy_score
+accuracy=accuracy_score(y_test,y_pred)
+print("Accuracy: {:,2f}%".format(accuracy *100))
+
+from sklearn.metrics import confusion_matrix
+import matplotlib.pyplot as plt
+import seaborn as sns
+cf=confusion_matrix(y_test,y_pred)
+plt.figure()
+sns.heatmap(cf, annot=True)
+plt.xlabel('prediction')
+plt.ylabel('Target')
+plt.title(" Confusion Matrix")
+
+#13. PCA
+
+from sklearn.decomposition import PCA
+import numpy as np
+import pandas as pd
+from sklearn.datasets import load_breast_cancer
+cancer=load_breast_cancer()
+
+df=pd.DataFrame(cancer.data, columns=cancer.feature_names)
+
+pca=PCA(n_components=4)
+
+reduce_data=pca.fit_transform(df)
+
+print(reduce_data)
+
+ # 11. apple and orange
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.svm import SVC
+from sklearn.metrics import confusion_matrix
+from sklearn.preprocessing import LabelEncoder
+
+data=pd.read_csv("C:/Users/admin/Downloads/archive (22)/apples_and_oranges.csv")
+data
+
+import seaborn as sns
+sns.scatterplot(x="Weight",y="Size",hue="Class",data=data)
+
+
+training_set,test_set=train_test_split(data,test_size=0.2,random_state=42)
+print("train:",training_set)
+print("test:",test_set)
+
+x_train=training_set.iloc[:,0:2].values
+y_train=training_set.iloc[:,2].values
+x_test=test_set.iloc[:,0:2].values
+y_test=test_set.iloc[:,2].values
+print(x_train,y_train)
+print(y_test,y_test)
+
+clsf=SVC(kernel='rbf',random_state=1,C=1,gamma='auto')
+clsf.fit(x_train,y_train)
+
+pred_y=clsf.predict(x_test)
+pred_y
+
+cm=confusion_matrix(y_test,pred_y)
+print(cm)
+accuracy=float(cm.diagonal().sum())/len(y_test)
+#print("Accuracy:", accuracy)
+print('model accuracy is:',accuracy*100,'%')
+
+import pandas as pd
+import numpy as np
+from sklearn.svm import SVC
+from sklearn.datasets import load_iris
+from sklearn.metrics import confusion_matrix
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report
+
+df=pd.read_csv("C:/Users/admin/Downloads/archive (6)/Iris.csv")
+df
+
+iris=load_iris()
+x=iris.data
+y=iris.target
+
+x_train,x_test,y_train,y_test=train_test_split(x,y, random_state=0)
+
+model=SVC(random_state=0)
+model.fit(x_train,y_train)
+
+score=model.score(x_test,y_test)
+score
+
+pred_y=model.predict(x_test)
+pred_y
+
+from sklearn.metrics import mean_squared_error,mean_absolute_error
+from sklearn.metrics import mean_squared_error,r2_score
+print((mean_squared_error(y_test,pred_y)))
+#print((mean_absolute_error(y_test,pred_y)))
+#print(np.sqrt(mean_squared_error(y_test,pred_y)))
+print(r2_score(y_test,pred_y))
+
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.heatmap(df.corr(),annot=True)
+
+from sklearn.metrics import confusion_matrix
+confusion_matrix(y_test,pred_y)
+#print(confusion_matrix)
+
+matrix=classification_report(y_test,pred_y)
+print('classification_report:\n',matrix)
+
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+import matplotlib.pyplot as plt
+
+(x_train,y_train),(x_val,y_val)=keras.datasets.boston_housing.load_data()
+
+def create_model (hidden_layers,neurons_per_layer):
+    model=keras.Sequential()
+    model.add(layers.Dense(neurons_per_layer,activation='relu',input_shape=[x_train.shape[1],]))
+    for i in range(hidden_layers):
+        model.add(layers.Dense(neurons_per_layer,activation='relu'))
+        model.add(layers.Dense(1))
+        model.compile(optimizer='adam',loss='mean_squared_error',metrics=['mae'])
+        return model
+
+hidden_layers=[1,2,3]
+neurons_per_layer=[32,64,128]
+for hidden in hidden_layers:
+    for neurons in neurons_per_layer:
+        model=create_model(hidden,neurons)
+        history=model.fit(x_train,y_train,epochs=100,validation_data=(x_test,y_test))
+
+import numpy as np
+def plot_history(history):
+    plt.figure(figsize=(12,4))
+    plt.subplot(1,2,1)
+    plt.xlabel('Epoch')
+    plt.ylabel('Mean Abs Error[1000$]')
+    plt.plot(history.epoch, np.array(history.history['mae']),label='Train Loss')
+    plt.plot(history.epoch, np.array(history.history['val_mae']),label='Val Loss')
+    plt.legend()
+    plt.subplot(1,2,2)
+    plt.ylabel('Mean Abs Error[1000$]')
+    plt.plot(history.epoch, np.array(history.history['loss']),label='Train Loss')
+    plt.plot(history.epoch, np.array(history.history['val_loss']),label='Val Loss')
+    plt.legend()
+    plt.show()
+
+plot_history(history)
+
+# 17 ngrams
+
+import nltk
+from nltk.util import ngrams
+nltk.download('punkt')
+sentence="data visualization is a way to express your data in a visual context"
+tokens=nltk.word_tokenize(sentence)
+bi_grams=ngrams(tokens,2)
+tri_grams=ngrams(tokens,3)
+print("bi_grams:",list(bi_grams))
+print("tri_grams:",list(tri_grams))
+
+
+from wordcloud import WordCloud, STOPWORDS
+stop_w=set(STOPWORDS)
+text=("data visualization ia a way to express your data in a visual context so that patterns, correlations , trends between the data can be easily understand")
+tokens=nltk.word_tokenize(text)
+print(tokens)
+tokens=[word for word in tokens if word.isalpha()]
+print(tokens)
+bi_grams=ngrams(tokens,2)
+tri_grams=ngrams(tokens,3)
+print("bi_grams:",list(bi_grams))
+print("tri_grams:",list(tri_grams))
+
+import string 
+new_string=sentence.translate(str.maketrans('','',string.punctuation))
+print(new_string)
+
+# lesso
+
+pip install scikit-learn==1.1.3
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+from sklearn.datasets import load_boston
+
+df=load_boston()
+df
+
+dataset=pd.DataFrame(df.data)
+print(dataset.head())
+
+dataset.head()
+
+dataset.columns=df.feature_names
+
+dataset.head()
+
+df.target.shape
+
+dataset['price']=df.target
+
+dataset.head()
+
+x=dataset.iloc[:,:-1]
+y=dataset.iloc[:,-1]
+
+from sklearn.linear_model import Lasso
+from sklearn.model_selection import GridSearchCV
+lasso=Lasso()
+parameters={'alpha':[1e-15,1e-20,1e-8,1e-2,2,1,5,10,20,30,40,45,50,50,55,100]}
+
+lasso_regressor=GridSearchCV(lasso,parameters,scoring='neg_mean_squared_error',cv=5)
+
+lasso_regressor.fit(x,y)
+print(lasso_regressor.best_params_)
+print(lasso_regressor.best_score_)
+
+from sklearn.model_selection import train_test_split
+x_train,x_test,y_train,y_test=train_test_split(x,y, random_state=42)
+
+x_test
+
+y_test
+
+Acc=lasso_regressor.predict(x_test)
+
+import seaborn as sns
+sns.distplot(y_test-Acc)
+plt.show()
+
+#21 CIE AND SEE
+
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+df=pd.read-csv("")
+df
+
+df.loc[:,]
+
+
+
